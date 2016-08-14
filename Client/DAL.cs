@@ -9,115 +9,139 @@ using System.Runtime.Serialization.Formatters.Soap;
 
 namespace Client.Core
 {
+    /// <summary>
+    /// Data Access Layer.
+    /// </summary>
     class DAL
     {
-        // Указание, где ожидать входящие сообщения.
-        Uri address;
-
-        // Указание, как обмениваться сообщениями.
-        //BasicHttpBinding binding;
-        NetTcpBinding binding;
-
-        // Создание Конечной Точки.
-        EndpointAddress endpoint;
-
-        // Создание фабрики каналов.
-        ChannelFactory<IVirtualFilesystem> factory;
-
-        // Использование factory для создания канала (прокси).
-        IVirtualFilesystem channel;
+        ConnectionFactory connectionFactory;
 
         public DAL()
         {
-            // Указание, где ожидать входящие сообщения.
-            address = new Uri("net.tcp://127.0.0.1:4000/IVirtualFilesystem");
+            connectionFactory = new ConnectionFactory();
 
-            // Указание, как обмениваться сообщениями.
-            //binding = new BasicHttpBinding();
-            binding = new NetTcpBinding();
-
-            // Создание Конечной Точки.
-            endpoint = new EndpointAddress(address);
-
-            // Создание фабрики каналов.
-            factory = new ChannelFactory<IVirtualFilesystem>(binding, endpoint);
-
-            // Использование factory для создания канала (прокси).
-            channel = factory.CreateChannel();
-        }
-
-        internal string CreateFile(string dir)
-        {
-            FileStream stream = channel.CreateFile(dir);
-            SoapFormatter formatter = new SoapFormatter();
+            // Создание примера файловой системы.
+            connectionFactory.channel.CreateFolder("c:\\folder1");
+            connectionFactory.channel.CreateFolder("c:\\folder2");
+            connectionFactory.channel.CreateFolder("c:\\folder3");
             
-            string result = formatter.Deserialize(stream) as string;
-
-            stream.Close();
-
-            return result;
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder4");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder5");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder6");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder7");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder8");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder9");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder3\\folder10");
+            connectionFactory.channel.CreateFolder("c:\\folder3\\folder11");
+            connectionFactory.channel.CreateFolder("c:\\folder3\\folder12");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder4\\folder13");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder4\\folder14");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder4\\folder15");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder5\\folder16");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder5\\folder17");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder5\\folder18");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder6\\folder19");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder6\\folder20");
+            connectionFactory.channel.CreateFolder("c:\\folder1\\folder6\\folder21");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder7\\folder22");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder7\\folder23");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder7\\folder24");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder8\\folder25");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder8\\folder26");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder8\\folder27");
+            
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder9\\folder28");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder9\\folder29");
+            connectionFactory.channel.CreateFolder("c:\\folder2\\folder9\\folder30");
+            
+            connectionFactory.channel.CreateFile("c:\\folder2\\folder8\\file1.txt");
+            connectionFactory.channel.CreateFile("c:\\folder2\\file1.txt");
+            connectionFactory.channel.CreateFile("c:\\folder2\\folder8\\folder26\\file1.txt");
+            connectionFactory.channel.CreateFile("c:\\file.txt");
         }
 
-        internal string CreateFolder(string dir)
+        /// <summary>
+        /// Локальные методы, принимающие результаты от RPC-методов.
+        /// </summary>
+        /// <param name="dir"></param>
+        internal void CreateFile(string dir)
         {
-            FileStream stream = channel.CreateFolder(dir);
-            SoapFormatter formatter = new SoapFormatter();
-
-            string result = formatter.Deserialize(stream) as string;
-
-            stream.Close();
-
-            return result;
+            if (connectionFactory.channel.CreateFile(dir) == 0)
+            {
+                Console.WriteLine("Файл успешно создан!!!");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка!!!");
+            }
         }
 
-        internal string Copy(string sourceDir, string destinationDir)
+        internal void CreateFolder(string dir)
         {
-            FileStream stream = channel.Copy(sourceDir, destinationDir);
-            SoapFormatter formatter = new SoapFormatter();
-
-            string result = formatter.Deserialize(stream) as string;
-
-            stream.Close();
-
-            return result;
+            if (connectionFactory.channel.CreateFolder(dir) == 0)
+            {
+                Console.WriteLine("Папка успешно создана!!!");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка!!!");
+            }
         }
 
-        internal string Delete(string dir)
+        internal void Copy(string sourceDir, string destinationDir)
         {
-            FileStream stream = channel.Delete(dir);
-            SoapFormatter formatter = new SoapFormatter();
-
-            string result = formatter.Deserialize(stream) as string;
-
-            stream.Close();
-
-            return result;
+            if (connectionFactory.channel.Copy(sourceDir, destinationDir) == 0)
+            {
+                Console.WriteLine("Файл/папка успешно скопирована!!!");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка!!!");
+            }
         }
 
-        internal string Move(string sourceDir, string destinationDir)
+        internal void Delete(string dir)
         {
-            FileStream stream = channel.Move(sourceDir, destinationDir);
-            SoapFormatter formatter = new SoapFormatter();
-
-            string result = formatter.Deserialize(stream) as string;
-
-            stream.Close();
-
-            return result;
+            if (connectionFactory.channel.Delete(dir) == 0)
+            {
+                Console.WriteLine("Файл/папка успешно удалена!!!");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка!!!");
+            }
         }
 
-        internal List<string> ShowTree(string dir)
+        internal void Move(string sourceDir, string destinationDir)
         {
-            channel.ShowTree(dir);
+            if (connectionFactory.channel.Move(sourceDir, destinationDir) == 0)
+            {
+                Console.WriteLine("Файл/папка успешно перемещена!!!");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка!!!");
+            }
+        }
 
-            FileStream stream = channel.ShowTree(dir);
-            SoapFormatter formatter = new SoapFormatter();
+        internal void ShowTree(string dir)
+        {
+            List<string> treeList = connectionFactory.channel.ShowTree(dir);
 
-            List<string> result = formatter.Deserialize(stream) as List<string>;
-
-            stream.Close();
-
-            return result;
+            if (treeList.Count != 0)
+            {
+                foreach (var item in treeList)
+                {
+                    Console.WriteLine(item);
+                }
+            }
         }
     }
 }

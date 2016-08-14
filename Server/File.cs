@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Server.Core
 {
+    /// <summary>
+    /// Файл.
+    /// </summary>
     internal class Files : FileOrFolder
     {
 

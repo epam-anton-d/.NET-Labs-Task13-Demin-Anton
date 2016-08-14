@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Server.Core
 {
+    /// <summary>
+    /// Папка.
+    /// </summary>
     internal class Folder : FileOrFolder
     {
         // name - наследованное поле.

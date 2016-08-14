@@ -30,36 +30,11 @@ namespace Client.Core
             dal = new DAL();
         }
 
-        //internal string CreateFolder(string dir)
-        //{
-        //    return dal.CreateFolder(dir);
-        //}
-        //
-        //internal string CreateFile(string dir)
-        //{
-        //    return dal.CreateFile(dir);
-        //}
-        //
-        //internal string Copy(string sourceDir, string destinationDir)
-        //{
-        //    return dal.Copy(sourceDir, destinationDir);
-        //}
-        //
-        //internal string Delete(string dir)
-        //{
-        //    return dal.Delete(dir);
-        //}
-        //
-        //internal string Move(string sourceDir, string destinationDir)
-        //{
-        //    return dal.Move(sourceDir, destinationDir);
-        //}
-        //
-        //internal List<string> ShowTree(string dir)
-        //{
-        //    return dal.ShowTree(dir);
-        //}
-
+        /// <summary>
+        /// Обработка ввода пользователя.
+        /// </summary>
+        /// <param name="read"></param>
+        /// <returns></returns>
         internal bool ConsoleDialog(string read)
         {
 
@@ -69,8 +44,8 @@ namespace Client.Core
             {
                 commands = read.Split(space);
                 
-                Console.WriteLine(dal.CreateFolder(commands[1]));
-                
+                dal.CreateFolder(commands[1]);
+
                 return true;
             }
             // Создание файла.
@@ -78,7 +53,7 @@ namespace Client.Core
             {
                 commands = read.Split(space);
 
-                Console.WriteLine(dal.CreateFile(commands[1]));
+                dal.CreateFile(commands[1]);
                 
                 return true;
             }
@@ -87,7 +62,7 @@ namespace Client.Core
             {
                 commands = read.Split(space);
 
-                Console.WriteLine(dal.Copy(commands[1], commands[2]));
+                dal.Copy(commands[1], commands[2]);
                 
                 return true;
             }
@@ -96,7 +71,7 @@ namespace Client.Core
             {
                 commands = read.Split(space);
 
-                Console.WriteLine(dal.Delete(commands[1]));
+                dal.Delete(commands[1]);
                 
                 return true;
             }
@@ -105,7 +80,7 @@ namespace Client.Core
             {
                 commands = read.Split(space);
 
-                Console.WriteLine(dal.Move(commands[1], commands[2]));
+                dal.Move(commands[1], commands[2]);
                 
                 return true;
             }
@@ -114,10 +89,7 @@ namespace Client.Core
             {
                 commands = read.Split(space);
 
-                foreach (var line in dal.ShowTree(commands[1]))
-                {
-                    Console.WriteLine(line);
-                }
+                dal.ShowTree(commands[1]);
                 
                 return true;
             }

@@ -83,46 +83,23 @@ namespace Server.Core
         /// </summary>
         /// <param name="dir"></param>
         /// <returns></returns>
-        //public int CreateFolder(string dir)
-        //{
-        //    string[] path = dir.Split(slash);
-        //
-        //    try
-        //    {
-        //        DiveIntoTheFolder(-1, path, root).Add(new Folder() { name = path[path.Length - 1] });
-        //    }
-        //    catch
-        //    {
-        //        return 1;
-        //    }
-        //
-        //    return 0;
-        //}
-
-        public FileStream CreateFolder(string dir)
+        public int CreateFolder(string dir)
         {
             string[] path = dir.Split(slash);
 
             try
             {
                 DiveIntoTheFolder(-1, path, root).Add(new Folder() { name = path[path.Length - 1] });
-
-                FileStream stream = File.Create("Data.xml");
-
-                // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                SoapFormatter formatter = new SoapFormatter();
-
-                // Cериализация.
-                formatter.Serialize(stream, "Папка успешно создана");
-
-                return stream;
             }
             catch
             {
-                return null;
+                return 1;
             }
+
+            return 0;
         }
 
+        // Работает.
         private List<string> TreeRecursion(string branch, Folder treeRoot, List<string> treeList)
         {
             if (treeList == null)
@@ -135,8 +112,9 @@ namespace Server.Core
                 foreach (var folder in treeRoot.folderList)
                 {
                     //Console.WriteLine(branch + folder.name + '\\');
+
                     treeList.Add(branch + folder.name + '\\');
-                    
+
                     TreeRecursion(branch + folder.name + '\\', folder, treeList);
                 }
             }
@@ -150,7 +128,6 @@ namespace Server.Core
                     treeList.Add(branch + file.name);
                 }
             }
-
             return treeList;
         }
 
@@ -159,32 +136,20 @@ namespace Server.Core
         /// </summary>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public FileStream CreateFile(string dir)
+        public int CreateFile(string dir)
         {
             string[] path = dir.Split(slash);
 
             try
             {
                 DiveInFolderToCreateFile(0, path, root.Find(x => x.name == path[0]), files);
-
-                FileStream stream = File.Create("Data.xml");
-
-                // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                SoapFormatter formatter = new SoapFormatter();
-
-                // Cериализация.
-                formatter.Serialize(stream, "Файл успешно создан");
-
-                stream.Close();
-
-                stream = File.OpenRead("Data.xml");
-
-                return stream;
             }
             catch
             {
-                return null;
+                return 1;
             }
+
+            return 0;
         }
 
         /// <summary>
@@ -192,9 +157,10 @@ namespace Server.Core
         /// </summary>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public FileStream ShowTree(string dir)
+        public List<string> ShowTree(string dir)
         {
             string[] path = dir.Split(slash);
+            List<string> treeList;
 
             try
             {
@@ -202,22 +168,14 @@ namespace Server.Core
 
                 string branch = rootFolder.name + '\\';
 
-                List<string> treeList = TreeRecursion(branch, rootFolder, null);
-
-                FileStream stream = File.Create("Data.xml");
-
-                // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                SoapFormatter formatter = new SoapFormatter();
-
-                // Cериализация.
-                formatter.Serialize(stream, treeList);
-
-                return stream;
+                treeList = TreeRecursion(branch, rootFolder, null);
             }
             catch
             {
                 return null;
             }
+
+            return treeList;
         }
 
         /// <summary>
@@ -226,7 +184,7 @@ namespace Server.Core
         /// <param name="sourceDir"></param>
         /// <param name="destinationDir"></param>
         /// <returns></returns>
-        public FileStream Copy(string sourceDir, string destinationDir)
+        public int Copy(string sourceDir, string destinationDir)
         {
             string[] sourcePath = sourceDir.Split(slash);
             string[] destinationPath = destinationDir.Split(slash);
@@ -236,20 +194,10 @@ namespace Server.Core
                 try
                 {
                     DiveIntoTheFolder(-1, destinationPath, root).Find(x => x.name == destinationPath[destinationPath.Length - 1]).fileList.Add(DiveIntoTheFolderToCopyFile(-1, sourcePath, root).Find(x => x.name == sourcePath[sourcePath.Length - 2]).fileList.Find(x => x.name == sourcePath[sourcePath.Length - 1]));
-
-                    FileStream stream = File.Create("Data.xml");
-
-                    // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                    SoapFormatter formatter = new SoapFormatter();
-
-                    // Cериализация.
-                    formatter.Serialize(stream, "Файл успешно скопирован");
-
-                    return stream;
                 }
                 catch
                 {
-                    return null;
+                    return 1;
                 }
             }
             else
@@ -257,22 +205,14 @@ namespace Server.Core
                 try
                 {
                     DiveIntoTheFolder(-1, destinationPath, root).Find(x => x.name == destinationPath[destinationPath.Length - 1]).folderList.Add(DiveIntoTheFolder(-1, sourcePath, root).Find(x => x.name == sourcePath[sourcePath.Length - 1]));
-
-                    FileStream stream = File.Create("Data.xml");
-
-                    // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                    SoapFormatter formatter = new SoapFormatter();
-
-                    // Cериализация.
-                    formatter.Serialize(stream, "Папка успешно скопирована");
-
-                    return stream;
                 }
                 catch
                 {
-                    return null;
+                    return 2;
                 }
             }
+
+            return 0;
         }
 
         /// <summary>
@@ -280,7 +220,7 @@ namespace Server.Core
         /// </summary>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public FileStream Delete(string dir)
+        public int Delete(string dir)
         {
             string[] path = dir.Split(slash);
 
@@ -290,20 +230,10 @@ namespace Server.Core
                 try
                 {
                     DiveIntoTheFolderToCopyFile(-1, path, root).Find(x => x.name == path[path.Length - 2]).fileList.RemoveAll(x => x.name == path[path.Length - 1]);
-
-                    FileStream stream = File.Create("Data.xml");
-
-                    // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                    SoapFormatter formatter = new SoapFormatter();
-
-                    // Cериализация.
-                    formatter.Serialize(stream, "Файл успешно удален");
-
-                    return stream;
                 }
                 catch
                 {
-                    return null;
+                    return 1;
                 }
             }
             else
@@ -311,22 +241,14 @@ namespace Server.Core
                 try
                 {
                     DiveIntoTheFolder(-1, path, root).RemoveAll(x => x.name == path[path.Length - 1]);
-
-                    FileStream stream = File.Create("Data.xml");
-
-                    // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                    SoapFormatter formatter = new SoapFormatter();
-
-                    // Cериализация.
-                    formatter.Serialize(stream, "Папка успешно удалена");
-
-                    return stream;
                 }
                 catch
                 {
-                    return null;
+                    return 2;
                 }
             }
+
+            return 0;
         }
 
         /// <summary>
@@ -335,29 +257,20 @@ namespace Server.Core
         /// <param name="sourceDir"></param>
         /// <param name="destinationDir"></param>
         /// <returns></returns>
-        public FileStream Move(string sourceDir, string destinationDir)
+        public int Move(string sourceDir, string destinationDir)
         {
             try
             {
                 Copy(sourceDir, destinationDir);
 
                 Delete(sourceDir);
-
-                FileStream stream = File.Create("Data.xml");
-
-                // Помещаем объектный граф (для базовых типов) в поток в двоичном формате.
-                SoapFormatter formatter = new SoapFormatter();
-
-                // Cериализация.
-                formatter.Serialize(stream, "Папка/файл успешно перемещена");
-
-                return stream;
             }
             catch
             {
-                return null;
+                return 1;
             }
-        }
 
+            return 0;
+        }
     }
 }

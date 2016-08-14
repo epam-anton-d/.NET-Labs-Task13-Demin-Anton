@@ -49,6 +49,7 @@
     <Compile Include="FileSystem.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="IVirtualFilesystem.cs" />
+    <Compile Include="MessageDispatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

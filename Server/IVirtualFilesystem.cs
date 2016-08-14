@@ -8,20 +8,23 @@ using System.ServiceModel;
 
 namespace Server.Core
 {
+    /// <summary>
+    /// Интерфейс "общения" клиента с сервером.
+    /// </summary>
     [ServiceContract]
     interface IVirtualFilesystem
     {
         [OperationContract]
-        FileStream CreateFile(string name);
+        int CreateFile(string name);
         [OperationContract]
-        FileStream CreateFolder(string name);
+        int CreateFolder(string name);
         [OperationContract]
-        FileStream ShowTree(string dir);
+        List<string> ShowTree(string dir);
         [OperationContract]
-        FileStream Copy(string sourceDir, string destinationDir);
+        int Copy(string sourceDir, string destinationDir);
         [OperationContract]
-        FileStream Delete(string dir);
+        int Delete(string dir);
         [OperationContract]
-        FileStream Move(string sourceDir, string destinationDir);
+        int Move(string sourceDir, string destinationDir);
     }
 }
