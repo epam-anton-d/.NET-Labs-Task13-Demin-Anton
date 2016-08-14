@@ -1,0 +1,6 @@
+C:\EPAM\Task_13_VirtualFilesystem\Client\bin\Debug\Client.exe.config
+C:\EPAM\Task_13_VirtualFilesystem\Client\bin\Debug\Client.exe
+C:\EPAM\Task_13_VirtualFilesystem\Client\bin\Debug\Client.pdb
+C:\EPAM\Task_13_VirtualFilesystem\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\EPAM\Task_13_VirtualFilesystem\Client\obj\Debug\Client.exe
+C:\EPAM\Task_13_VirtualFilesystem\Client\obj\Debug\Client.pdb
