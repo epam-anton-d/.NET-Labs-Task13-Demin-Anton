@@ -44,17 +44,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="File.cs" />
-    <Compile Include="FileOrFolder.cs" />
+    <Compile Include="BLL.cs" />
+    <Compile Include="DAL.cs" />
     <Compile Include="FileSystem.cs" />
-    <Compile Include="Folder.cs" />
-    <Compile Include="IVirtualFilesystem.cs" />
     <Compile Include="MessageDispatcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interface\Interface.csproj">
+      <Project>{2acb456d-e0ee-47d4-88cf-6b405cd34dea}</Project>
+      <Name>Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Core
+namespace Interface
 {
-    /// <summary>
-    /// Файл.
-    /// </summary>
-    internal class Files : FileOrFolder
+    public class Node
     {
-
+        public string name;
     }
 }

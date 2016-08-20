@@ -1,0 +1,5 @@
+C:\EPAM\Task_13_VirtualFilesystem\Interface\bin\Debug\Interface.dll
+C:\EPAM\Task_13_VirtualFilesystem\Interface\bin\Debug\Interface.pdb
+C:\EPAM\Task_13_VirtualFilesystem\Interface\obj\Debug\Interface.csprojResolveAssemblyReference.cache
+C:\EPAM\Task_13_VirtualFilesystem\Interface\obj\Debug\Interface.dll
+C:\EPAM\Task_13_VirtualFilesystem\Interface\obj\Debug\Interface.pdb

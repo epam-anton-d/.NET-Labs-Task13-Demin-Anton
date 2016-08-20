@@ -4,3 +4,5 @@ C:\EPAM\Task_13_VirtualFilesystem\Server\bin\Debug\Server.pdb
 C:\EPAM\Task_13_VirtualFilesystem\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
 C:\EPAM\Task_13_VirtualFilesystem\Server\obj\Debug\Server.exe
 C:\EPAM\Task_13_VirtualFilesystem\Server\obj\Debug\Server.pdb
+C:\EPAM\Task_13_VirtualFilesystem\Server\bin\Debug\Interface.dll
+C:\EPAM\Task_13_VirtualFilesystem\Server\bin\Debug\Interface.pdb

@@ -6,25 +6,23 @@ using System.Threading.Tasks;
 using System.IO;
 using System.ServiceModel;
 
-namespace Server.Core
+namespace Interface
 {
     /// <summary>
     /// Интерфейс "общения" клиента с сервером.
     /// </summary>
     [ServiceContract]
-    interface IVirtualFilesystem
+    public interface IVirtualFilesystem
     {
         [OperationContract]
-        int CreateFile(string name);
+        bool Create(string dir);
         [OperationContract]
-        int CreateFolder(string name);
+        bool Copy(string sourceDir, string destinationDir);
+        [OperationContract]
+        bool Delete(string dir);
+        [OperationContract]
+        bool Move(string sourceDir, string destinationDir);
         [OperationContract]
         List<string> ShowTree(string dir);
-        [OperationContract]
-        int Copy(string sourceDir, string destinationDir);
-        [OperationContract]
-        int Delete(string dir);
-        [OperationContract]
-        int Move(string sourceDir, string destinationDir);
     }
 }

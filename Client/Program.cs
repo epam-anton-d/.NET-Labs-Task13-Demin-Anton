@@ -37,7 +37,7 @@ namespace Client
             {               
                 Console.Write("c:\\>");
                 read = Console.ReadLine();
-                read = read.Trim();
+                read = read.Trim().TrimEnd(new char[] { '\\' });
 
             } while (bll.ConsoleDialog(read));
         }

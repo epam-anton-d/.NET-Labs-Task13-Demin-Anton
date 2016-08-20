@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Core
+namespace Interface
 {
     /// <summary>
     /// Папка.
     /// </summary>
-    internal class Folder : FileOrFolder
+    public class Folder : Node
     {
         // name - наследованное поле.
-        public List<Folder> folderList = new List<Folder>();
-        public List<Files> fileList = new List<Files>();
+        public List<Node> nodeList = new List<Node>();
     }
 }

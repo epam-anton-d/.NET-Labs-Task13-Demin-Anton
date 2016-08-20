@@ -40,28 +40,28 @@ namespace Client.Core
 
             // Проверка ввода пользователя на соответствие шаблонам.
             // Создание директории.
-            if (Regex.IsMatch(read, patternMkdir + patternPathFolder))
+            if (Regex.IsMatch(read, patternMkdir + patternPathFolder) || Regex.IsMatch(read, patternCreate + patternPathFile))
             {
                 commands = read.Split(space);
                 
-                dal.CreateFolder(commands[1]);
+                dal.Create(commands[1]);
 
                 return true;
             }
             // Создание файла.
-            else if (Regex.IsMatch(read, patternCreate + patternPathFile))
-            {
-                commands = read.Split(space);
-
-                dal.CreateFile(commands[1]);
-                
-                return true;
-            }
+            //else if (Regex.IsMatch(read, patternCreate + patternPathFile))
+            //{
+            //    commands = read.Split(space);
+            //
+            //    dal.CreateFile(commands[1]);
+            //    
+            //    return true;
+            //}
             // Копирование файла или папки.
             else if (Regex.IsMatch(read, patternCopy + patternPathFile + patternPathDisk) || Regex.IsMatch(read, patternCopy + patternPathFolder + patternPathDisk))
             {
                 commands = read.Split(space);
-
+            
                 dal.Copy(commands[1], commands[2]);
                 
                 return true;
@@ -70,7 +70,7 @@ namespace Client.Core
             else if (Regex.IsMatch(read, patternDelete + patternPathFile) || Regex.IsMatch(read, patternDelete + patternPathFolder))
             {
                 commands = read.Split(space);
-
+            
                 dal.Delete(commands[1]);
                 
                 return true;
@@ -79,7 +79,7 @@ namespace Client.Core
             else if (Regex.IsMatch(read, patternMove + patternPathFile + patternPathDisk) || Regex.IsMatch(read, patternMove + patternPathFolder + patternPathDisk))
             {
                 commands = read.Split(space);
-
+            
                 dal.Move(commands[1], commands[2]);
                 
                 return true;
